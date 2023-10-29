@@ -14,3 +14,7 @@
 .boardItem:hover {
     border-color: #11589a;
 }
+
+.winLine {
+    background: linear-gradient(127deg, #11589a 14.52%, #114e9a 96.64%);
+}

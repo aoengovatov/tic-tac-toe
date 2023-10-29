@@ -1,7 +1,12 @@
-import styles from './borderItem.module.css';
+import styles from './boardItem.module.css';
+import { Icon } from './Icon';
 
-const BoardItemLayout = () => <div className={styles.boardItem}></div>;
+const BoardItemLayout = ({ icon, winLine }) => (
+    <div className={`${styles.boardItem} ${winLine ? styles.winLine : ''}`}>
+        <Icon icon={icon} />
+    </div>
+);
 
-export const BoardItem = () => {
-    return <BoardItemLayout />;
+export const BoardItem = ({ icon, winLine }) => {
+    return <BoardItemLayout icon={icon} winLine={winLine} />;
 };

@@ -1,6 +1,4 @@
 import styles from './app.module.css';
-import crossImage from './cross.png';
-import zeroImage from './zero.png';
 import { BoardItem } from './BoardItem';
 import { ResultGame } from './ResultGame';
 import { Status } from './Status';
@@ -10,19 +8,15 @@ const AppLayout = ({ name, resultTitle, endGameFlag, status, statusFlag }) => (
         <div className={styles.appContainer}>
             <div className={styles.title}>{name}</div>
             <div className={styles.board}>
-                <div className={`${styles.boardItem} ${styles.winLine}`}>
-                    <img className={styles.imageCross} src={crossImage} alt="cross"></img>
-                </div>
-                <div className={styles.boardItem}>
-                    <img className={styles.imageZero} src={zeroImage} alt="zero"></img>
-                </div>
-                <BoardItem />
-                <BoardItem />
-                <BoardItem />
-                <BoardItem />
-                <BoardItem />
-                <BoardItem />
-                <BoardItem />
+                <BoardItem icon={1} winLine={false} />
+                <BoardItem icon={-1} winLine={false} />
+                <BoardItem icon={0} winLine={false} />
+                <BoardItem icon={0} winLine={false} />
+                <BoardItem icon={0} winLine={false} />
+                <BoardItem icon={0} winLine={false} />
+                <BoardItem icon={0} winLine={false} />
+                <BoardItem icon={0} winLine={false} />
+                <BoardItem icon={0} winLine={false} />
             </div>
             <Status flag={statusFlag} title={status} />
             <ResultGame flag={endGameFlag} title={resultTitle} />
