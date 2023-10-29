@@ -56,13 +56,36 @@
     background: linear-gradient(127deg, #11589a 14.52%, #114e9a 96.64%);
 }
 
+.imageCross {
+    width: 57px;
+}
+
+.imageZero {
+    width: 60px;
+}
+
 .boardItem:hover {
     border-color: #11589a;
 }
 
 .status {
+    font-size: 18px;
     color: #9d9494;
     margin-bottom: 15px;
+}
+
+.endContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #2f313c;
+    border-radius: 7px;
+    padding: 15px 25px;
+}
+
+.endTitle {
+    font-size: 25px;
+    margin-bottom: 10px;
 }
 
 .button {

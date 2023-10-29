@@ -8,10 +8,10 @@ const AppLayout = ({ name }) => (
             <div className={styles.title}>{name}</div>
             <div className={styles.board}>
                 <div className={`${styles.boardItem} ${styles.winLine}`}>
-                    <img src={crossImage} alt="cross"></img>
+                    <img className={styles.imageCross} src={crossImage} alt="cross"></img>
                 </div>
                 <div className={styles.boardItem}>
-                    <img src={zeroImage} alt="zero"></img>
+                    <img className={styles.imageZero} src={zeroImage} alt="zero"></img>
                 </div>
                 <div className={styles.boardItem}></div>
                 <div className={styles.boardItem}></div>
@@ -22,7 +22,10 @@ const AppLayout = ({ name }) => (
                 <div className={styles.boardItem}></div>
             </div>
             <div className={styles.status}>строка состояния</div>
-            <button className={styles.button}>новая игра</button>
+            <div className={styles.endContainer}>
+                <div className={styles.endTitle}>Победил крестик!</div>
+                <button className={styles.button}>новая игра</button>
+            </div>
         </div>
     </div>
 );
