@@ -1,8 +1,11 @@
 import styles from './app.module.css';
 import crossImage from './cross.png';
 import zeroImage from './zero.png';
+import { BoardItem } from './BoardItem';
+import { ResultGame } from './ResultGame';
+import { Status } from './Status';
 
-const AppLayout = ({ name }) => (
+const AppLayout = ({ name, resultTitle, endGameFlag, status, statusFlag }) => (
     <div className={styles.container}>
         <div className={styles.appContainer}>
             <div className={styles.title}>{name}</div>
@@ -13,24 +16,33 @@ const AppLayout = ({ name }) => (
                 <div className={styles.boardItem}>
                     <img className={styles.imageZero} src={zeroImage} alt="zero"></img>
                 </div>
-                <div className={styles.boardItem}></div>
-                <div className={styles.boardItem}></div>
-                <div className={styles.boardItem}></div>
-                <div className={styles.boardItem}></div>
-                <div className={styles.boardItem}></div>
-                <div className={styles.boardItem}></div>
-                <div className={styles.boardItem}></div>
+                <BoardItem />
+                <BoardItem />
+                <BoardItem />
+                <BoardItem />
+                <BoardItem />
+                <BoardItem />
+                <BoardItem />
             </div>
-            <div className={styles.status}>строка состояния</div>
-            <div className={styles.endContainer}>
-                <div className={styles.endTitle}>Победил крестик!</div>
-                <button className={styles.button}>новая игра</button>
-            </div>
+            <Status flag={statusFlag} title={status} />
+            <ResultGame flag={endGameFlag} title={resultTitle} />
         </div>
     </div>
 );
 
 export const App = () => {
+    const resulTitle = 'Победа крестика!';
+    const endGameFlag = false;
+    const statusFlag = true;
     const name = 'Крестики - нолики';
-    return <AppLayout name={name} />;
+    const status = 'ходит крестик';
+    return (
+        <AppLayout
+            name={name}
+            resultTitle={resulTitle}
+            endGameFlag={endGameFlag}
+            status={status}
+            statusFlag={statusFlag}
+        />
+    );
 };

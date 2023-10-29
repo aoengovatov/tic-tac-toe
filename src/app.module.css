@@ -48,6 +48,10 @@
     transition: all 0.2s;
 }
 
+.boardItem:hover {
+    border-color: #11589a;
+}
+
 .cross {
     background: url('./cross.png');
 }
@@ -64,41 +68,8 @@
     width: 60px;
 }
 
-.boardItem:hover {
-    border-color: #11589a;
-}
-
 .status {
     font-size: 18px;
     color: #9d9494;
     margin-bottom: 15px;
-}
-
-.endContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #2f313c;
-    border-radius: 7px;
-    padding: 15px 25px;
-}
-
-.endTitle {
-    font-size: 25px;
-    margin-bottom: 10px;
-}
-
-.button {
-    border: none;
-    color: #d9d9d9;
-    background: #11589a;
-    font-size: 16px;
-    padding: 8px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.button:hover {
-    opacity: 0.8;
 }
