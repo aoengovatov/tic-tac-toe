@@ -2,21 +2,31 @@ import styles from './app.module.css';
 import { BoardItem } from './BoardItem';
 import { ResultGame } from './ResultGame';
 import { Status } from './Status';
+import { useState } from 'react';
 
-const AppLayout = ({ name, resultTitle, endGameFlag, status, statusFlag }) => (
+const AppLayout = ({
+    name,
+    resultTitle,
+    endGameFlag,
+    status,
+    statusFlag,
+    boardItems,
+    step,
+    setStep,
+}) => (
     <div className={styles.container}>
         <div className={styles.appContainer}>
             <div className={styles.title}>{name}</div>
             <div className={styles.board}>
-                <BoardItem icon={1} winLine={false} />
-                <BoardItem icon={-1} winLine={false} />
-                <BoardItem icon={0} winLine={false} />
-                <BoardItem icon={0} winLine={false} />
-                <BoardItem icon={0} winLine={false} />
-                <BoardItem icon={0} winLine={false} />
-                <BoardItem icon={0} winLine={false} />
-                <BoardItem icon={0} winLine={false} />
-                <BoardItem icon={0} winLine={false} />
+                {boardItems.map((item) => (
+                    <BoardItem
+                        winLine={false}
+                        id={item}
+                        key={item}
+                        step={step}
+                        setStep={setStep}
+                    />
+                ))}
             </div>
             <Status flag={statusFlag} title={status} />
             <ResultGame flag={endGameFlag} title={resultTitle} />
@@ -25,11 +35,19 @@ const AppLayout = ({ name, resultTitle, endGameFlag, status, statusFlag }) => (
 );
 
 export const App = () => {
-    const resulTitle = 'Победа крестика!';
-    const endGameFlag = false;
-    const statusFlag = true;
+    let resulTitle = 'Победа крестика!';
+    let endGameFlag = false;
+    let statusFlag = true;
     const name = 'Крестики - нолики';
-    const status = 'ходит крестик';
+    const [step, setStep] = useState(true);
+    const boardItems = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+    const getStatus = (step) => {
+        return step ? 'ходит крестик' : 'ходит нолик';
+    };
+
+    const status = getStatus(step);
+
     return (
         <AppLayout
             name={name}
@@ -37,6 +55,9 @@ export const App = () => {
             endGameFlag={endGameFlag}
             status={status}
             statusFlag={statusFlag}
+            boardItems={boardItems}
+            step={step}
+            setStep={setStep}
         />
     );
 };

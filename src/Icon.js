@@ -4,13 +4,11 @@ import styles from './icon.module.css';
 
 const IconLayout = ({ src, style }) => <img className={style} src={src} alt="icon"></img>;
 
-export const Icon = ({ icon }) => {
-    switch (icon) {
+export const Icon = ({ iconValue }) => {
+    switch (iconValue) {
         case 1:
-            console.log('крестик');
             return <IconLayout src={crossImage} style={styles.imageCross} />;
         case -1:
-            console.log('нолик');
             return <IconLayout src={zeroImage} style={styles.imageZero} />;
         default:
             return false;
