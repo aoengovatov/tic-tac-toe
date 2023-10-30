@@ -5,6 +5,7 @@ import { useState } from 'react';
 const BoardItemLayout = ({ winLine, id, value, setValueOnBoard }) => (
     <div
         className={`${styles.boardItem} ${winLine ? styles.winLine : ''}`}
+        id="boarditem"
         onClick={() => setValueOnBoard()}
         data-id={id}
         data-value={value}
@@ -14,11 +15,11 @@ const BoardItemLayout = ({ winLine, id, value, setValueOnBoard }) => (
     </div>
 );
 
-export const BoardItem = ({ winLine, id, step, setStep }) => {
+export const BoardItem = ({ winLine, id, step, setStep, endGameFlag }) => {
     const [value, setValue] = useState(0);
 
     const setValueOnBoard = () => {
-        if (value === 0) {
+        if (value === 0 && !endGameFlag) {
             setValue(step ? 1 : -1);
             setStep(!step);
         }
