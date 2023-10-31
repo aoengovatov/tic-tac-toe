@@ -4,10 +4,11 @@ import { ResultGame } from './ResultGame';
 import { Status } from './Status';
 import { useState } from 'react';
 
+const name = 'Крестики - нолики';
 let resulTitle = '';
 let statusFlag = true;
 let boardResult = {};
-let boardItems = [
+const boardStartItems = [
     { id: 0, winLine: false },
     { id: 1, winLine: false },
     { id: 2, winLine: false },
@@ -19,6 +20,8 @@ let boardItems = [
     { id: 8, winLine: false },
 ];
 
+let boardItems = [];
+
 const AppLayout = ({
     name,
     resultTitle,
@@ -29,6 +32,8 @@ const AppLayout = ({
     step,
     setStep,
     resultStatBoard,
+    setNewGame,
+    newGame,
 }) => (
     <div className={styles.container}>
         <div className={styles.appContainer}>
@@ -45,19 +50,33 @@ const AppLayout = ({
                         step={step}
                         setStep={setStep}
                         endGameFlag={endGameFlag}
+                        newGame={newGame}
                     />
                 ))}
             </div>
             <Status flag={statusFlag} title={status} />
-            <ResultGame flag={endGameFlag} title={resultTitle} />
+            <ResultGame flag={endGameFlag} title={resultTitle} setNewGame={setNewGame} />
         </div>
     </div>
 );
 
 export const App = () => {
-    const name = 'Крестики - нолики';
     const [step, setStep] = useState(true);
     const [endGameFlag, setEndGameFlag] = useState(false);
+    const [newGame, setNewGame] = useState(false);
+
+    if (boardItems.length === 0) {
+        boardItems = [...boardStartItems];
+    }
+
+    if (newGame === true) {
+        boardItems = [];
+        statusFlag = true;
+        setStep(true);
+        setEndGameFlag(false);
+        setNewGame(false);
+        console.log('Новая игра');
+    }
 
     const resultStatBoard = (event) => {
         const id = event.target.dataset.id;
@@ -97,21 +116,23 @@ export const App = () => {
         );
     };
 
+    const showResultWindow = () => {
+        statusFlag = false;
+        setEndGameFlag(true);
+    };
+
     const getResultGame = (boardResult) => {
         const resultTitles = ['Победа крестика!', 'Победа нолика!', 'Ничья!'];
 
         if (checkWin(boardResult, 1)) {
             resulTitle = resultTitles[0];
-            statusFlag = false;
-            setEndGameFlag(true);
+            showResultWindow();
         } else if (checkWin(boardResult, -1)) {
             resulTitle = resultTitles[1];
-            statusFlag = false;
-            setEndGameFlag(true);
+            showResultWindow();
         } else if (Object.keys(boardResult).length === 9) {
             resulTitle = resultTitles[2];
-            statusFlag = false;
-            setEndGameFlag(true);
+            showResultWindow();
         }
     };
 
@@ -128,6 +149,8 @@ export const App = () => {
             step={step}
             setStep={setStep}
             resultStatBoard={resultStatBoard}
+            newGame={newGame}
+            setNewGame={setNewGame}
         />
     );
 };

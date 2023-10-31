@@ -3,18 +3,28 @@ import { Icon } from './Icon';
 import { useState } from 'react';
 
 const BoardItemLayout = ({ winLine, id, value, setValueOnBoard }) => (
-    <div
-        className={`${styles.boardItem} ${winLine ? styles.winLine : ''}`}
-        id="boarditem"
-        onClick={() => setValueOnBoard()}
-        data-id={id}
-        key={id}
-    >
-        <Icon iconValue={value} />
-    </div>
+    <>
+        <div
+            className={`${styles.boardItem} ${winLine ? styles.winLine : ''}`}
+            id="boarditem"
+            onClick={() => setValueOnBoard()}
+            data-id={id}
+            key={id}
+        >
+            <Icon iconValue={value} />
+        </div>
+    </>
 );
 
-export const BoardItem = ({ winLine, id, step, setStep, endGameFlag }) => {
+export const BoardItem = ({
+    boardItems,
+    winLine,
+    id,
+    step,
+    setStep,
+    endGameFlag,
+    newGame,
+}) => {
     const [value, setValue] = useState(0);
 
     const setValueOnBoard = () => {
