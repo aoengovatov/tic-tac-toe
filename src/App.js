@@ -7,6 +7,17 @@ import { useState } from 'react';
 let resulTitle = '';
 let statusFlag = true;
 let boardResult = {};
+let boardItems = [
+    { id: 0, winLine: false },
+    { id: 1, winLine: false },
+    { id: 2, winLine: false },
+    { id: 3, winLine: false },
+    { id: 4, winLine: false },
+    { id: 5, winLine: false },
+    { id: 6, winLine: false },
+    { id: 7, winLine: false },
+    { id: 8, winLine: false },
+];
 
 const AppLayout = ({
     name,
@@ -28,9 +39,9 @@ const AppLayout = ({
             >
                 {boardItems.map((item) => (
                     <BoardItem
-                        winLine={false}
-                        id={item}
-                        key={item}
+                        winLine={item.winLine}
+                        id={item.id}
+                        key={item.id}
                         step={step}
                         setStep={setStep}
                         endGameFlag={endGameFlag}
@@ -47,34 +58,64 @@ export const App = () => {
     const name = 'Крестики - нолики';
     const [step, setStep] = useState(true);
     const [endGameFlag, setEndGameFlag] = useState(false);
-    const boardItems = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
     const resultStatBoard = (event) => {
         const id = event.target.dataset.id;
         if (id) {
             const value = step ? 1 : -1;
             boardResult[id] = value;
-            //console.log(boardResult);
             getResultGame(boardResult);
         }
     };
 
-    const getResultGame = (boardResult) => {
-        console.log(boardResult);
+    const checkWin = (boardResult, value) => {
+        return (
+            (boardResult[0] === value &&
+                boardResult[1] === value &&
+                boardResult[2] === value) ||
+            (boardResult[3] === value &&
+                boardResult[4] === value &&
+                boardResult[5] === value) ||
+            (boardResult[6] === value &&
+                boardResult[7] === value &&
+                boardResult[8] === value) ||
+            (boardResult[0] === value &&
+                boardResult[3] === value &&
+                boardResult[6] === value) ||
+            (boardResult[1] === value &&
+                boardResult[4] === value &&
+                boardResult[7] === value) ||
+            (boardResult[2] === value &&
+                boardResult[5] === value &&
+                boardResult[8] === value) ||
+            (boardResult[0] === value &&
+                boardResult[4] === value &&
+                boardResult[8] === value) ||
+            (boardResult[6] === value &&
+                boardResult[4] === value &&
+                boardResult[2] === value)
+        );
+    };
 
-        if (boardResult[0] === 1 && boardResult[1] === 1 && boardResult[2] === 1) {
-            resulTitle = 'Победа крестика!';
+    const getResultGame = (boardResult) => {
+        const resultTitles = ['Победа крестика!', 'Победа нолика!', 'Ничья!'];
+
+        if (checkWin(boardResult, 1)) {
+            resulTitle = resultTitles[0];
             statusFlag = false;
             setEndGameFlag(true);
-            //console.log(boardResult);
+        } else if (checkWin(boardResult, -1)) {
+            resulTitle = resultTitles[1];
+            statusFlag = false;
+            setEndGameFlag(true);
+        } else if (Object.keys(boardResult).length === 9) {
+            resulTitle = resultTitles[2];
+            statusFlag = false;
+            setEndGameFlag(true);
         }
     };
 
-    const getStatus = (step) => {
-        return step ? 'ходит крестик' : 'ходит нолик';
-    };
-
-    const status = getStatus(step);
+    const status = step ? 'ходит крестик' : 'ходит нолик';
 
     return (
         <AppLayout

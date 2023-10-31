@@ -8,7 +8,6 @@ const BoardItemLayout = ({ winLine, id, value, setValueOnBoard }) => (
         id="boarditem"
         onClick={() => setValueOnBoard()}
         data-id={id}
-        data-value={value}
         key={id}
     >
         <Icon iconValue={value} />
