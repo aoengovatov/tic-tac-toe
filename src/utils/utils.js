@@ -1,18 +1,23 @@
-/*export const getResultGame = (boardResult) => {
-    const resultTitles = ['Победа крестика!', 'Победа нолика!', 'Ничья!'];
+import { winCombinations } from '../constants/winCombinations';
+import { resultGameTitles } from '../constants/resultGameTitles';
 
-    if (checkWin(boardResult, 1)) {
-        resulTitle = resultTitles[0];
-        showResultWindow();
-    } else if (checkWin(boardResult, -1)) {
-        resulTitle = resultTitles[1];
-        showResultWindow();
-    } else if (Object.keys(boardResult).length === 9) {
-        resulTitle = resultTitles[2];
-        showResultWindow();
-    }
-};*/
+export const checkWin = (fields, currentPlayer) => {
+    const fieldsArray = fields.map((field) => field.value);
+    console.log(fieldsArray);
+    return winCombinations.some((winPattern) =>
+        winPattern.every((index) => fieldsArray[index] === currentPlayer),
+    );
+};
+
+export const checkDrow = (fields) => {
+    const fieldsArray = fields.map((field) => field.value);
+    return fieldsArray.every((field) => field !== '');
+};
 
 export const changePlayer = (currentPlayer, setCurrentPlayer) => {
     return setCurrentPlayer(currentPlayer === 'x' ? 'o' : 'x');
+};
+
+export const getWinTitles = (currentPlayer) => {
+    return currentPlayer === 'x' ? resultGameTitles[0] : resultGameTitles[1];
 };

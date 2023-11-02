@@ -1,14 +1,23 @@
 import styles from './app.module.css';
 import { BoardItem } from './components/boardItem/BoardItem';
-import { ResultGame } from './components/resultGame/ResultGame';
 import { Status } from './components/status/Status';
+import { ResultGame } from './components/resultGame/ResultGame';
 import { useState } from 'react';
-import { changePlayer } from './utils/utils';
+import { changePlayer, checkWin, checkDrow, getWinTitles } from './utils/utils';
 import { fieldsDefault } from './constants/fields';
 
 const nameGame = 'Крестики - нолики';
+let winTitle = '';
 
-const AppLayout = ({ currentPlayer, fields, playerClick }) => (
+const AppLayout = ({
+    currentPlayer,
+    fields,
+    playerClick,
+    resetClick,
+    statusFlag,
+    resultGameFlag,
+    winTitle,
+}) => (
     <div className={styles.container}>
         <div className={styles.appContainer}>
             <div className={styles.title}>{nameGame}</div>
@@ -23,6 +32,8 @@ const AppLayout = ({ currentPlayer, fields, playerClick }) => (
                     />
                 ))}
             </div>
+            <Status currentPlayer={currentPlayer} statusFlag={statusFlag} />
+            <ResultGame flag={resultGameFlag} title={winTitle} resetClick={resetClick} />
         </div>
     </div>
 );
@@ -30,18 +41,42 @@ const AppLayout = ({ currentPlayer, fields, playerClick }) => (
 export const App = () => {
     const [currentPlayer, setCurrentPlayer] = useState('x');
     const [fields, setFields] = useState(fieldsDefault);
-    const [isWin, setIsWin] = useState(false);
-    const [isDrow, setIsDrow] = useState(false);
+    const [isWin, setWin] = useState(false);
+    const [isDrow, setDrow] = useState(false);
+    const [statusFlag, setStatusFlag] = useState(true);
+    const [resultGameFlag, setResultGameFlag] = useState(false);
 
     const playerClick = (id) => {
-        // взять текущий ашудвы
-        setFields(
-            fields.map((field) =>
+        if (isWin || isDrow) return;
+
+        if (fields[id].value === '') {
+            const newFields = fields.map((field) =>
                 field.id === id ? { ...field, value: currentPlayer } : field,
-            ),
-        );
-        changePlayer(currentPlayer, setCurrentPlayer);
-        console.log(fields);
+            );
+            if (checkDrow(newFields)) {
+                setStatusFlag(false);
+                winTitle = 'Ничья!';
+                setResultGameFlag(true);
+                setDrow(true);
+            }
+            if (checkWin(newFields, currentPlayer)) {
+                setStatusFlag(false);
+                winTitle = getWinTitles(currentPlayer);
+                setResultGameFlag(true);
+                setWin(true);
+            }
+            setFields(newFields);
+            changePlayer(currentPlayer, setCurrentPlayer);
+        }
+    };
+
+    const resetClick = () => {
+        setFields(fieldsDefault);
+        setWin(false);
+        setDrow(false);
+        setStatusFlag(true);
+        setResultGameFlag(false);
+        setCurrentPlayer('x');
     };
 
     return (
@@ -49,6 +84,10 @@ export const App = () => {
             currentPlayer={currentPlayer}
             fields={fields}
             playerClick={playerClick}
+            resetClick={resetClick}
+            statusFlag={statusFlag}
+            resultGameFlag={resultGameFlag}
+            winTitle={winTitle}
         />
     );
 };
