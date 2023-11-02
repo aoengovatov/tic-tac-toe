@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './resultGame.module.css';
 
 const ResultGameLayout = ({ title, resetClick }) => (
@@ -11,4 +12,15 @@ const ResultGameLayout = ({ title, resetClick }) => (
 
 export const ResultGame = ({ flag, title, resetClick }) => {
     return flag ? <ResultGameLayout title={title} resetClick={resetClick} /> : false;
+};
+
+ResultGame.propTypes = {
+    flag: PropTypes.bool,
+    title: PropTypes.string,
+    resetClick: PropTypes.func,
+};
+
+ResultGameLayout.propTypes = {
+    title: PropTypes.string,
+    resetClick: PropTypes.func,
 };

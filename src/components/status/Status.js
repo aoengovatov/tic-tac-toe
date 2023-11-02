@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './status.module.css';
 
 const StatusLayout = ({ title }) => <div className={styles.status}>{title}</div>;
@@ -15,4 +16,13 @@ export const Status = ({ currentPlayer, statusFlag }) => {
     };
 
     return statusFlag ? <StatusLayout title={getStatus(currentPlayer)} /> : false;
+};
+
+Status.propTypes = {
+    currentPlayer: PropTypes.string,
+    statusFlag: PropTypes.bool,
+};
+
+StatusLayout.propTypes = {
+    currentPlayer: PropTypes.string,
 };

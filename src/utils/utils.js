@@ -3,7 +3,6 @@ import { resultGameTitles } from '../constants/resultGameTitles';
 
 export const checkWin = (fields, currentPlayer) => {
     const fieldsArray = fields.map((field) => field.value);
-    console.log(fieldsArray);
     return winCombinations.some((winPattern) =>
         winPattern.every((index) => fieldsArray[index] === currentPlayer),
     );

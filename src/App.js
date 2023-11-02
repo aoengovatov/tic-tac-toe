@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './app.module.css';
 import { BoardItem } from './components/boardItem/BoardItem';
 import { Status } from './components/status/Status';
@@ -90,4 +91,14 @@ export const App = () => {
             winTitle={winTitle}
         />
     );
+};
+
+AppLayout.propTypes = {
+    currentPlayer: PropTypes.string,
+    fields: PropTypes.array,
+    playerClick: PropTypes.func,
+    resetClick: PropTypes.func,
+    statusFlag: PropTypes.bool,
+    resultGameFlag: PropTypes.bool,
+    winTitle: PropTypes.string,
 };

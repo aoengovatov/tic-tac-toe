@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './boardItem.module.css';
 import { Icon } from '../icon/Icon';
 
@@ -21,4 +22,18 @@ export const BoardItem = ({ id, value, winLine, playerClick }) => {
             playerClick={playerClick}
         />
     );
+};
+
+BoardItem.propTypes = {
+    id: PropTypes.number,
+    value: PropTypes.string,
+    winLine: PropTypes.bool,
+    playerClick: PropTypes.func,
+};
+
+BoardItemLayout.propTypes = {
+    id: PropTypes.number,
+    value: PropTypes.string,
+    winLine: PropTypes.bool,
+    playerClick: PropTypes.func,
 };
