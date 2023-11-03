@@ -14,3 +14,7 @@
 .boardItem:hover {
     border-color: #11589a;
 }
+
+.winLine {
+    background: #123c63;
+}

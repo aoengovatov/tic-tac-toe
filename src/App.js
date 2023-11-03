@@ -4,7 +4,13 @@ import { BoardItem } from './components/boardItem/BoardItem';
 import { Status } from './components/status/Status';
 import { ResultGame } from './components/resultGame/ResultGame';
 import { useState } from 'react';
-import { changePlayer, checkWin, checkDrow, getWinTitles } from './utils/utils';
+import {
+    changePlayer,
+    checkWin,
+    checkDrow,
+    getWinTitles,
+    drowFields,
+} from './utils/utils';
 import { fieldsDefault } from './constants/fields';
 
 const nameGame = 'Крестики - нолики';
@@ -51,20 +57,24 @@ export const App = () => {
         if (isWin || isDrow) return;
 
         if (fields[id].value === '') {
-            const newFields = fields.map((field) =>
+            let newFields = fields.map((field) =>
                 field.id === id ? { ...field, value: currentPlayer } : field,
             );
+
             if (checkDrow(newFields)) {
                 setStatusFlag(false);
                 winTitle = 'Ничья!';
                 setResultGameFlag(true);
                 setDrow(true);
             }
-            if (checkWin(newFields, currentPlayer)) {
+            const win = checkWin(newFields, currentPlayer);
+            if (win.isWin) {
                 setStatusFlag(false);
                 winTitle = getWinTitles(currentPlayer);
                 setResultGameFlag(true);
+                newFields = drowFields(newFields, win.winPattern);
                 setWin(true);
+            } else {
             }
             setFields(newFields);
             changePlayer(currentPlayer, setCurrentPlayer);

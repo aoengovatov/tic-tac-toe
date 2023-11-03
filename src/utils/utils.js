@@ -3,9 +3,15 @@ import { resultGameTitles } from '../constants/resultGameTitles';
 
 export const checkWin = (fields, currentPlayer) => {
     const fieldsArray = fields.map((field) => field.value);
-    return winCombinations.some((winPattern) =>
-        winPattern.every((index) => fieldsArray[index] === currentPlayer),
+    let winPatternResult = [];
+    const isWin = winCombinations.some((winPattern, indexPattern) =>
+        winPattern.every(
+            (index) => fieldsArray[index] === currentPlayer,
+            (winPatternResult = winCombinations[indexPattern]),
+        ),
     );
+
+    return isWin ? { isWin: true, winPattern: [...winPatternResult] } : { isWin: false };
 };
 
 export const checkDrow = (fields) => {
@@ -19,4 +25,11 @@ export const changePlayer = (currentPlayer, setCurrentPlayer) => {
 
 export const getWinTitles = (currentPlayer) => {
     return currentPlayer === 'x' ? resultGameTitles[0] : resultGameTitles[1];
+};
+
+export const drowFields = (fields, winPattern) => {
+    winPattern.forEach((el) =>
+        fields.map((field) => (field.id === el ? (field.winLine = true) : field)),
+    );
+    return fields;
 };
