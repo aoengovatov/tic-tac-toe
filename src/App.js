@@ -11,7 +11,7 @@ import {
     getWinTitles,
     drowFields,
 } from './utils/utils';
-import { fieldsStore } from './store/store';
+import { useSelector, useDispatch } from 'react-redux';
 
 const nameGame = 'Крестики - нолики';
 let winTitle = '';
@@ -47,21 +47,22 @@ const AppLayout = ({
 
 export const App = () => {
     const [currentPlayer, setCurrentPlayer] = useState('x');
-    const [updateFieldsStore, setUpdateFieldsStore] = useState(false);
+    const fieldsStore = useSelector((store) => store);
     const [isWin, setWin] = useState(false);
     const [isDrow, setDrow] = useState(false);
     const [statusFlag, setStatusFlag] = useState(true);
     const [resultGameFlag, setResultGameFlag] = useState(false);
+    const dispatch = useDispatch();
+
+    console.log(fieldsStore);
 
     const playerClick = (id) => {
         if (isWin || isDrow) return;
 
-        if (fieldsStore.getState()[id].value === '') {
-            let newFields = fieldsStore
-                .getState()
-                .map((field) =>
-                    field.id === id ? { ...field, value: currentPlayer } : field,
-                );
+        if (fieldsStore[id].value === '') {
+            let newFields = fieldsStore.map((field) =>
+                field.id === id ? { ...field, value: currentPlayer } : field,
+            );
 
             if (checkDrow(newFields)) {
                 setStatusFlag(false);
@@ -78,15 +79,13 @@ export const App = () => {
                 setWin(true);
             } else {
             }
-            fieldsStore.dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
-            setUpdateFieldsStore(!updateFieldsStore);
+            dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
             changePlayer(currentPlayer, setCurrentPlayer);
         }
     };
 
     const resetClick = () => {
-        fieldsStore.dispatch({ type: 'SET_DEFAULT' });
-        setUpdateFieldsStore(!updateFieldsStore);
+        dispatch({ type: 'SET_DEFAULT' });
         setWin(false);
         setDrow(false);
         setStatusFlag(true);
@@ -97,7 +96,7 @@ export const App = () => {
     return (
         <AppLayout
             currentPlayer={currentPlayer}
-            fields={fieldsStore.getState()}
+            fields={fieldsStore}
             playerClick={playerClick}
             resetClick={resetClick}
             statusFlag={statusFlag}
