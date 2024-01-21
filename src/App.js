@@ -11,7 +11,7 @@ import {
     getWinTitles,
     drowFields,
 } from './utils/utils';
-import { fieldsStore } from './store/store';
+import { store } from './store/store';
 
 const nameGame = 'Крестики - нолики';
 let winTitle = '';
@@ -56,10 +56,10 @@ export const App = () => {
     const playerClick = (id) => {
         if (isWin || isDrow) return;
 
-        if (fieldsStore.getState()[id].value === '') {
-            let newFields = fieldsStore
+        if (store.getState().fields[id].value === '') {
+            let newFields = store
                 .getState()
-                .map((field) =>
+                .fields.map((field) =>
                     field.id === id ? { ...field, value: currentPlayer } : field,
                 );
 
@@ -78,14 +78,14 @@ export const App = () => {
                 setWin(true);
             } else {
             }
-            fieldsStore.dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
+            store.dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
             setUpdateFieldsStore(!updateFieldsStore);
             changePlayer(currentPlayer, setCurrentPlayer);
         }
     };
 
     const resetClick = () => {
-        fieldsStore.dispatch({ type: 'SET_DEFAULT' });
+        store.dispatch({ type: 'SET_DEFAULT' });
         setUpdateFieldsStore(!updateFieldsStore);
         setWin(false);
         setDrow(false);
@@ -97,7 +97,7 @@ export const App = () => {
     return (
         <AppLayout
             currentPlayer={currentPlayer}
-            fields={fieldsStore.getState()}
+            fields={store.getState().fields}
             playerClick={playerClick}
             resetClick={resetClick}
             statusFlag={statusFlag}

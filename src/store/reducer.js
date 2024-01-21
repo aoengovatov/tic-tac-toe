@@ -1,11 +1,11 @@
 import { fieldsDefault } from '../constants/fields';
 
-export const reducerFields = (state, action) => {
+export const reducer = (state = { fields: fieldsDefault() }, action) => {
     switch (action.type) {
         case 'UPDATE_FIELDS':
-            return [...action.payload];
+            return { ...state, fields: action.payload };
         case 'SET_DEFAULT':
-            return fieldsDefault();
+            return { ...state, fields: fieldsDefault() };
         default:
             return state;
     }
