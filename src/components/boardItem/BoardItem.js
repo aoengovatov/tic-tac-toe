@@ -29,8 +29,6 @@ export const BoardItem = ({ id, playerClick }) => {
 
 BoardItem.propTypes = {
     id: PropTypes.number,
-    value: PropTypes.string,
-    winLine: PropTypes.bool,
     playerClick: PropTypes.func,
 };
 
