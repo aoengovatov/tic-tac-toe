@@ -29,14 +29,8 @@ const AppLayout = ({
         <div className={styles.appContainer}>
             <div className={styles.title}>{nameGame}</div>
             <div className={styles.board}>
-                {fields.map((field) => (
-                    <BoardItem
-                        id={field.id}
-                        value={field.value}
-                        winLine={field.winLine}
-                        key={field.id}
-                        playerClick={playerClick}
-                    />
+                {fields.map(({ id }) => (
+                    <BoardItem id={id} key={id} playerClick={playerClick} />
                 ))}
             </div>
             <Status currentPlayer={currentPlayer} statusFlag={statusFlag} />
