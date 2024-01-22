@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './boardItem.module.css';
 import { Icon } from '../icon/Icon';
+import { useSelector } from 'react-redux';
 
 const BoardItemLayout = ({ id, value, winLine, playerClick }) => (
     <div
@@ -13,7 +14,9 @@ const BoardItemLayout = ({ id, value, winLine, playerClick }) => (
     </div>
 );
 
-export const BoardItem = ({ id, value, winLine, playerClick }) => {
+export const BoardItem = ({ id, playerClick }) => {
+    const { value, winLine } = useSelector((store) => store[id]);
+
     return (
         <BoardItemLayout
             id={id}
