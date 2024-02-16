@@ -16,6 +16,7 @@ export const Board = () => {
     const isDraw = useSelector(selectIsDraw);
     const currentPlayer = useSelector(selectCurrentPlayer);
     const dispatch = useDispatch();
+    let winPattern;
 
     const playerClick = (id) => {
         if (isWin || isDraw || fields[id].value !== '') return;
@@ -29,6 +30,7 @@ export const Board = () => {
         }
 
         const win = checkWin(newFields, currentPlayer);
+        winPattern = win.winPattern;
 
         if (win.isWin) {
             dispatch(setWin);
@@ -40,7 +42,12 @@ export const Board = () => {
     return (
         <div className={styles.board}>
             {fields.map(({ id }) => (
-                <BoardItem id={id} key={id} playerClick={playerClick} />
+                <BoardItem
+                    id={id}
+                    key={id}
+                    winLine={id.includes(winPattern)}
+                    onClick={playerClick(id)}
+                />
             ))}
         </div>
     );

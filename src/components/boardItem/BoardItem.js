@@ -1,21 +1,22 @@
 import PropTypes from 'prop-types';
-import styles from './boardItem.module.css';
 import { Icon } from '../icon/Icon';
 import { useSelector } from 'react-redux';
+import { selectFieldValue } from '../../store/selectors';
+import styles from './boardItem.module.css';
 
-const BoardItemLayout = ({ id, value, winLine, playerClick }) => (
-    <div
-        className={`${styles.boardItem} ${winLine ? styles.winLine : ''}`}
-        id={id}
-        value={value}
-        onClick={() => playerClick(id)}
-    >
-        {value !== '' ? <Icon value={value} /> : ''}
-    </div>
-);
+const BoardItemLayout = ({ value, winLine, playerClick }) => {
+    return (
+        <div
+            className={`${styles.boardItem} ${winLine ? styles.winLine : ''}`}
+            playerClick={playerClick}
+        >
+            {value !== '' ? <Icon value={value} /> : ''}
+        </div>
+    );
+};
 
-export const BoardItem = ({ id, playerClick }) => {
-    const { value, winLine } = useSelector((store) => store[id]);
+export const BoardItem = ({ id, winLine, playerClick }) => {
+    const value = useSelector(selectFieldValue(id));
 
     return (
         <BoardItemLayout
@@ -29,11 +30,11 @@ export const BoardItem = ({ id, playerClick }) => {
 
 BoardItem.propTypes = {
     id: PropTypes.number,
+    winLine: PropTypes.bool,
     playerClick: PropTypes.func,
 };
 
 BoardItemLayout.propTypes = {
-    id: PropTypes.number,
     value: PropTypes.string,
     winLine: PropTypes.bool,
     playerClick: PropTypes.func,
