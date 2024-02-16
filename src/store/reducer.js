@@ -8,7 +8,7 @@ const STATE_DEFAULT = {
     currentPlayer: 'x',
 };
 
-export const reducerFields = (state = STATE_DEFAULT, action) => {
+export const reducer = (state = STATE_DEFAULT, action) => {
     switch (action.type) {
         case ACTION_TYPE.UPDATE_FIELDS:
             return { ...state, fields: action.payload };

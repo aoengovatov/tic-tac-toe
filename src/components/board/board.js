@@ -45,7 +45,7 @@ export const Board = () => {
                 <BoardItem
                     id={id}
                     key={id}
-                    winLine={id.includes(winPattern)}
+                    winLine={() => winPattern.includes(id)}
                     onClick={playerClick(id)}
                 />
             ))}

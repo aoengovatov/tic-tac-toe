@@ -1,4 +1,7 @@
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { selectIsWin, selectIsDraw, selectCurrentPlayer } from '../../store/selectors';
+import { getWinTitles } from '../../utils/utils';
 import styles from './resultGame.module.css';
 
 const ResultGameLayout = ({ title, resetClick }) => (
@@ -10,13 +13,22 @@ const ResultGameLayout = ({ title, resetClick }) => (
     </div>
 );
 
-export const ResultGame = ({ flag, title, resetClick }) => {
-    return flag ? <ResultGameLayout title={title} resetClick={resetClick} /> : false;
+export const ResultGame = ({ resetClick }) => {
+    const isWin = useSelector(selectIsWin);
+    const isDraw = useSelector(selectIsDraw);
+    const currentPlayer = useSelector(selectCurrentPlayer);
+
+    return (
+        (isWin || isDraw) && (
+            <ResultGameLayout
+                title={getWinTitles(currentPlayer)}
+                resetClick={resetClick}
+            />
+        )
+    );
 };
 
 ResultGame.propTypes = {
-    flag: PropTypes.bool,
-    title: PropTypes.string,
     resetClick: PropTypes.func,
 };
 

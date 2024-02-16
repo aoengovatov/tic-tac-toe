@@ -30,12 +30,12 @@ export const BoardItem = ({ id, winLine, playerClick }) => {
 
 BoardItem.propTypes = {
     id: PropTypes.number,
-    winLine: PropTypes.bool,
+    winLine: PropTypes.func,
     playerClick: PropTypes.func,
 };
 
 BoardItemLayout.propTypes = {
     value: PropTypes.string,
-    winLine: PropTypes.bool,
+    winLine: PropTypes.func,
     playerClick: PropTypes.func,
 };
