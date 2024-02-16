@@ -1,5 +1,4 @@
 import { createStore } from 'redux';
-import { reducerFields } from './reducerFields';
-import { fieldsDefault } from '../constants/fields';
+import { reducer } from './reducer';
 
-export const fieldsStore = createStore(reducerFields, fieldsDefault());
+export const fieldsStore = createStore(reducer);

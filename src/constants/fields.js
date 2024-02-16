@@ -1,13 +1,11 @@
-export const fieldsDefault = () => {
-    return [
-        { id: 0, value: '', winLine: false },
-        { id: 1, value: '', winLine: false },
-        { id: 2, value: '', winLine: false },
-        { id: 3, value: '', winLine: false },
-        { id: 4, value: '', winLine: false },
-        { id: 5, value: '', winLine: false },
-        { id: 6, value: '', winLine: false },
-        { id: 7, value: '', winLine: false },
-        { id: 8, value: '', winLine: false },
-    ];
-};
+export const fieldsDefault = [
+    { id: 0, value: '' },
+    { id: 1, value: '' },
+    { id: 2, value: '' },
+    { id: 3, value: '' },
+    { id: 4, value: '' },
+    { id: 5, value: '' },
+    { id: 6, value: '' },
+    { id: 7, value: '' },
+    { id: 8, value: '' },
+];
