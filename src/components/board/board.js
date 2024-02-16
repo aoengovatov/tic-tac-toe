@@ -5,7 +5,9 @@ import {
     selectFields,
     selectCurrentPlayer,
 } from '../../store/selectors';
-import { checkDraw } from '../../utils/utils';
+import { setDraw, setWin, setCurrentPlayer, updateFields } from '../../store/actions';
+import { checkDraw, checkWin } from '../../utils/utils';
+import { BoardItem } from '../boardItem/BoardItem';
 import styles from './board.module.css';
 
 export const Board = () => {
@@ -23,18 +25,16 @@ export const Board = () => {
         );
 
         if (checkDraw(newFields)) {
-            dispatch(setDrow);
+            dispatch(setDraw);
         }
+
         const win = checkWin(newFields, currentPlayer);
+
         if (win.isWin) {
-            setStatusFlag(false);
-            winTitle = getWinTitles(currentPlayer);
-            setResultGameFlag(true);
-            newFields = drowFields(newFields, win.winPattern);
-            setWin(true);
+            dispatch(setWin);
         }
-        dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
-        changePlayer(currentPlayer, setCurrentPlayer);
+        dispatch(updateFields(newFields));
+        dispatch(setCurrentPlayer);
     };
 
     return (
