@@ -21,7 +21,7 @@ export const App = () => {
     const dispatch = useDispatch();
 
     const resetClick = () => {
-        dispatch(reset);
+        dispatch(reset());
     };
 
     return <AppLayout resetClick={resetClick} />;
