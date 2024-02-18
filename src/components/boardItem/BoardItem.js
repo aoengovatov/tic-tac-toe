@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './boardItem.module.css';
 import { Icon } from '../icon/Icon';
+import { selectField } from '../../store/selectors';
 import { store } from '../../store/store';
 
 const BoardItemLayout = ({ id, value, winLine, playerClick }) => (
@@ -14,8 +15,8 @@ const BoardItemLayout = ({ id, value, winLine, playerClick }) => (
     </div>
 );
 
-export const BoardItem = ({ id, playerClick }) => {
-    const { value, winLine } = store.getState().fields[id];
+export const BoardItem = ({ id, winLine, playerClick }) => {
+    const { value } = selectField(store, id);
 
     return (
         <BoardItemLayout
@@ -30,6 +31,7 @@ export const BoardItem = ({ id, playerClick }) => {
 BoardItem.propTypes = {
     id: PropTypes.number,
     playerClick: PropTypes.func,
+    winLine: PropTypes.bool,
 };
 
 BoardItemLayout.propTypes = {

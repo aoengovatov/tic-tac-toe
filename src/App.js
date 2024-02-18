@@ -1,112 +1,39 @@
 import PropTypes from 'prop-types';
-import styles from './app.module.css';
-import { BoardItem } from './components/boardItem/BoardItem';
+import { Board } from './components/board/Board';
 import { Status } from './components/status/Status';
 import { ResultGame } from './components/resultGame/ResultGame';
 import { useState } from 'react';
-import {
-    changePlayer,
-    checkWin,
-    checkDrow,
-    getWinTitles,
-    drowFields,
-} from './utils/utils';
 import { store } from './store/store';
+import { reset } from './store/actions';
+import styles from './app.module.css';
 
-const nameGame = 'Крестики - нолики';
-let winTitle = '';
-
-const AppLayout = ({
-    currentPlayer,
-    fields,
-    playerClick,
-    resetClick,
-    statusFlag,
-    resultGameFlag,
-    winTitle,
-}) => (
+const AppLayout = ({ resetClick, updateApp }) => (
     <div className={styles.container}>
         <div className={styles.appContainer}>
-            <div className={styles.title}>{nameGame}</div>
-            <div className={styles.board}>
-                {fields.map(({ id }) => (
-                    <BoardItem id={id} key={id} playerClick={playerClick} />
-                ))}
-            </div>
-            <Status currentPlayer={currentPlayer} statusFlag={statusFlag} />
-            <ResultGame flag={resultGameFlag} title={winTitle} resetClick={resetClick} />
+            <div className={styles.title}>Крестики - нолики</div>
+            <Board updateApp={updateApp} />
+            <Status />
+            <ResultGame resetClick={resetClick} />
         </div>
     </div>
 );
 
 export const App = () => {
-    const [currentPlayer, setCurrentPlayer] = useState('x');
-    const [updateFieldsStore, setUpdateFieldsStore] = useState(false);
-    const [isWin, setWin] = useState(false);
-    const [isDrow, setDrow] = useState(false);
-    const [statusFlag, setStatusFlag] = useState(true);
-    const [resultGameFlag, setResultGameFlag] = useState(false);
+    const [update, setUpdate] = useState(false);
 
-    const playerClick = (id) => {
-        if (isWin || isDrow) return;
-
-        if (store.getState().fields[id].value === '') {
-            let newFields = store
-                .getState()
-                .fields.map((field) =>
-                    field.id === id ? { ...field, value: currentPlayer } : field,
-                );
-
-            if (checkDrow(newFields)) {
-                setStatusFlag(false);
-                winTitle = 'Ничья!';
-                setResultGameFlag(true);
-                setDrow(true);
-            }
-            const win = checkWin(newFields, currentPlayer);
-            if (win.isWin) {
-                setStatusFlag(false);
-                winTitle = getWinTitles(currentPlayer);
-                setResultGameFlag(true);
-                newFields = drowFields(newFields, win.winPattern);
-                setWin(true);
-            } else {
-            }
-            store.dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
-            setUpdateFieldsStore(!updateFieldsStore);
-            changePlayer(currentPlayer, setCurrentPlayer);
-        }
+    const updateApp = () => {
+        setUpdate(!update);
     };
 
     const resetClick = () => {
-        store.dispatch({ type: 'SET_DEFAULT' });
-        setUpdateFieldsStore(!updateFieldsStore);
-        setWin(false);
-        setDrow(false);
-        setStatusFlag(true);
-        setResultGameFlag(false);
-        setCurrentPlayer('x');
+        store.dispatch(reset());
+        updateApp();
     };
 
-    return (
-        <AppLayout
-            currentPlayer={currentPlayer}
-            fields={store.getState().fields}
-            playerClick={playerClick}
-            resetClick={resetClick}
-            statusFlag={statusFlag}
-            resultGameFlag={resultGameFlag}
-            winTitle={winTitle}
-        />
-    );
+    return <AppLayout recetClick={resetClick} updateApp={updateApp} />;
 };
 
 AppLayout.propTypes = {
-    currentPlayer: PropTypes.string,
-    fields: PropTypes.array,
-    playerClick: PropTypes.func,
     resetClick: PropTypes.func,
-    statusFlag: PropTypes.bool,
-    resultGameFlag: PropTypes.bool,
-    winTitle: PropTypes.string,
+    updateApp: PropTypes.func,
 };
