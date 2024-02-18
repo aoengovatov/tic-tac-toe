@@ -18,13 +18,10 @@ export const ResultGame = ({ resetClick }) => {
     const isDraw = useSelector(selectIsDraw);
     const currentPlayer = useSelector(selectCurrentPlayer);
 
+    const title = isDraw ? 'Ничья!' : getWinTitles(currentPlayer);
+
     return (
-        (isWin || isDraw) && (
-            <ResultGameLayout
-                title={getWinTitles(currentPlayer)}
-                resetClick={resetClick}
-            />
-        )
+        (isWin || isDraw) && <ResultGameLayout title={title} resetClick={resetClick} />
     );
 };
 

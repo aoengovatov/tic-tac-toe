@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { Icon } from '../icon/Icon';
 import styles from './boardItem.module.css';
+import { useSelector } from 'react-redux';
+import { selectFieldValue } from '../../store/selectors';
 
 const BoardItemLayout = ({ value, winLine, ...props }) => {
     return (
@@ -13,16 +15,14 @@ const BoardItemLayout = ({ value, winLine, ...props }) => {
     );
 };
 
-export const BoardItem = (props) => {
-    return <BoardItemLayout {...props} />;
+export const BoardItem = ({ id, ...props }) => {
+    const field = useSelector(selectFieldValue(id));
+
+    return <BoardItemLayout value={field.value} winLine={field.winLine} {...props} />;
 };
 
 BoardItem.propTypes = {
-    props: PropTypes.objectOf({
-        id: PropTypes.number,
-        value: PropTypes.string,
-        winLine: PropTypes.bool,
-    }),
+    id: PropTypes.number,
 };
 
 BoardItemLayout.propTypes = {

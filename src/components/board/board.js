@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     selectIsWin,
     selectIsDraw,
@@ -19,7 +19,11 @@ export const Board = () => {
     const [winPattern, setWinPattern] = useState([]);
     const dispatch = useDispatch();
 
-	
+    useEffect(() => {
+        if (!isWin && !isDraw) {
+            setWinPattern([]);
+        }
+    }, [isWin, isDraw]);
 
     const playerClick = (id) => {
         if (isWin || isDraw || fields[id].value !== '') return;
@@ -37,20 +41,20 @@ export const Board = () => {
         if (win.isWin) {
             dispatch(setWin());
             setWinPattern(win.winPattern);
+        } else {
+            dispatch(setCurrentPlayer());
         }
         dispatch(updateFields(newFields));
-        dispatch(setCurrentPlayer());
     };
 
     return (
         <div className={styles.board}>
-            {fields.map((field) => (
+            {fields.map(({ id }) => (
                 <BoardItem
-                    id={field.id}
-                    key={field.id}
-                    {...field}
-                    winLine={winPattern.includes(field.id)}
-                    onClick={() => playerClick(field.id)}
+                    id={id}
+                    key={id}
+                    winLine={winPattern.includes(id)}
+                    onClick={() => playerClick(id)}
                 />
             ))}
         </div>
