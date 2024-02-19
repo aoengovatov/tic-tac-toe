@@ -30,7 +30,7 @@ export const App = () => {
         updateApp();
     };
 
-    return <AppLayout recetClick={resetClick} updateApp={updateApp} />;
+    return <AppLayout resetClick={resetClick} updateApp={updateApp} />;
 };
 
 AppLayout.propTypes = {

@@ -4,39 +4,27 @@ import { Icon } from '../icon/Icon';
 import { selectField } from '../../store/selectors';
 import { store } from '../../store/store';
 
-const BoardItemLayout = ({ id, value, winLine, playerClick }) => (
-    <div
-        className={`${styles.boardItem} ${winLine ? styles.winLine : ''}`}
-        id={id}
-        value={value}
-        onClick={() => playerClick(id)}
-    >
+const BoardItemLayout = ({ value, winLine, ...props }) => (
+    <div className={`${styles.boardItem} ${winLine ? styles.winLine : ''}`} {...props}>
         {value !== '' ? <Icon value={value} /> : ''}
     </div>
 );
 
-export const BoardItem = ({ id, winLine, playerClick }) => {
+export const BoardItem = ({ id, winLine, ...props }) => {
     const { value } = selectField(store, id);
 
-    return (
-        <BoardItemLayout
-            id={id}
-            value={value}
-            winLine={winLine}
-            playerClick={playerClick}
-        />
-    );
+    return <BoardItemLayout value={value} winLine={winLine} {...props} />;
 };
 
 BoardItem.propTypes = {
     id: PropTypes.number,
-    playerClick: PropTypes.func,
+    value: PropTypes.string,
     winLine: PropTypes.bool,
+    onClick: PropTypes.func,
 };
 
 BoardItemLayout.propTypes = {
-    id: PropTypes.number,
     value: PropTypes.string,
     winLine: PropTypes.bool,
-    playerClick: PropTypes.func,
+    onClick: PropTypes.func,
 };

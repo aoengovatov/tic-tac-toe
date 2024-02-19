@@ -1,9 +1,15 @@
 import PropTypes from 'prop-types';
+import { selectCurrentPlayer, selectIsDraw, selectIsWin } from '../../store/selectors';
+import { store } from '../../store/store';
 import styles from './status.module.css';
 
 const StatusLayout = ({ title }) => <div className={styles.status}>{title}</div>;
 
-export const Status = ({ currentPlayer, statusFlag }) => {
+export const Status = () => {
+    const currentPlayer = selectCurrentPlayer(store);
+    const isWin = selectIsWin(store);
+    const isDraw = selectIsDraw(store);
+
     const getStatus = (currentPlayer) => {
         switch (currentPlayer) {
             case 'x':
@@ -15,12 +21,7 @@ export const Status = ({ currentPlayer, statusFlag }) => {
         }
     };
 
-    return statusFlag ? <StatusLayout title={getStatus(currentPlayer)} /> : false;
-};
-
-Status.propTypes = {
-    currentPlayer: PropTypes.string,
-    statusFlag: PropTypes.bool,
+    return !(isWin || isDraw) && <StatusLayout title={getStatus(currentPlayer)} />;
 };
 
 StatusLayout.propTypes = {

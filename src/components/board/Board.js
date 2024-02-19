@@ -1,4 +1,5 @@
 import { store } from '../../store/store';
+import { useState, useEffect } from 'react';
 import { BoardItem } from '../boardItem/BoardItem';
 import {
     selectCurrentPlayer,
@@ -7,14 +8,21 @@ import {
     selectIsWin,
 } from '../../store/selectors';
 import { checkDrow, checkWin } from '../../utils/utils';
-import { setDraw } from '../../store/actions';
+import { setDraw, setWin, setCurrentPlayer, setFields } from '../../store/actions';
 import styles from './board.module.css';
 
-export const Board = () => {
+export const Board = ({ updateApp }) => {
+    const [winPattern, setWinPattern] = useState([]);
     const fields = selectFields(store);
     const isWin = selectIsWin(store);
     const isDraw = selectIsDraw(store);
     const currentPlayer = selectCurrentPlayer(store);
+
+    useEffect(() => {
+        if (!isWin && !isDraw) {
+            setWinPattern([]);
+        }
+    }, [isWin, isDraw]);
 
     const playerClick = (id) => {
         if (isWin || isDraw || fields[id].value !== '') return;
@@ -33,17 +41,23 @@ export const Board = () => {
 
         if (win.isWin) {
             store.dispatch(setWin());
+            setWinPattern(win.winPattern);
         } else {
+            store.dispatch(setCurrentPlayer());
         }
-        store.dispatch({ type: 'UPDATE_FIELDS', payload: newFields });
-        setUpdateFieldsStore(!updateFieldsStore);
-        changePlayer(currentPlayer, setCurrentPlayer);
+        store.dispatch(setFields(newFields));
+        updateApp();
     };
 
     return (
         <div className={styles.board}>
             {fields.map(({ id }) => (
-                <BoardItem id={id} key={id} playerClick={playerClick} />
+                <BoardItem
+                    id={id}
+                    key={id}
+                    winLine={winPattern.includes(id)}
+                    onClick={() => playerClick(id)}
+                />
             ))}
         </div>
     );

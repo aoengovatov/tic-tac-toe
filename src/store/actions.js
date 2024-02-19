@@ -1,5 +1,10 @@
 import { ACTION_TYPE } from './action-type';
 
-export const setDraw = () => ({ action: ACTION_TYPE.SET_DRAW });
-export const setWin = () => ({ action: ACTION_TYPE.SET_WIN });
+export const setDraw = () => ({ type: ACTION_TYPE.SET_DRAW });
+export const setWin = () => ({ type: ACTION_TYPE.SET_WIN });
+export const setFields = (fields) => ({
+    type: ACTION_TYPE.UPDATE_FIELDS,
+    payload: fields,
+});
 export const reset = () => ({ type: ACTION_TYPE.SET_DEFAULT });
+export const setCurrentPlayer = () => ({ type: ACTION_TYPE.SET_CURRENT_PLAYER });
