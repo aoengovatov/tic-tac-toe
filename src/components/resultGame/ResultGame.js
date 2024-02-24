@@ -3,16 +3,18 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { selectIsWin, selectIsDraw, selectCurrentPlayer } from '../../store/selectors';
 import { getWinTitles } from '../../utils/utils';
-import styles from './resultGame.module.css';
 
 class ResultGameLayout extends Component {
     render() {
         const { title, resetClick } = this.props;
 
         return (
-            <div className={styles.endContainer}>
-                <div className={styles.endTitle}>{title}</div>
-                <button className={styles.button} onClick={resetClick}>
+            <div className="flex flex-col items-center bg-blue-950 rounded-lg py-[15px] px-[25px] m-[20px]">
+                <div className="text-[25px] mb-[10px]">{title}</div>
+                <button
+                    className="border-none bg-blue-800 text-[16px] py-[8px] px-[20px] rounded-md cursor-pointer hover:opacity-80 transition-all duration-200"
+                    onClick={resetClick}
+                >
                     новая игра
                 </button>
             </div>

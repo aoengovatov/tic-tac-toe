@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import styles from './icon.module.css';
 import crossImage from '../../images/cross.png';
 import zeroImage from '../../images/zero.png';
 
@@ -10,7 +9,7 @@ class IconLayout extends Component {
 
         return (
             <img
-                className={styles.image}
+                className="w-[60px] h-[60px]"
                 src={value === 'x' ? crossImage : value === 'o' ? zeroImage : ''}
                 alt="icon"
                 draggable={false}

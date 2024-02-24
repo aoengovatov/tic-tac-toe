@@ -5,16 +5,15 @@ import { Status } from './components/status/Status';
 import { ResultGame } from './components/resultGame/ResultGame';
 import { connect } from 'react-redux';
 import { reset } from './store/actions';
-import styles from './app.module.css';
 
 class AppLayout extends Component {
     render() {
         const { resetClick } = this.props;
 
         return (
-            <div className={styles.container}>
-                <div className={styles.appContainer}>
-                    <div className={styles.title}>Крестики - нолики</div>
+            <div className="flex flex-col items-center justify-center min-h-[100vh] bg-neutral-900">
+                <div className="flex flex-col items-center">
+                    <div className="text-[30px] mb-[12px]">Крестики - нолики</div>
                     <Board />
                     <Status />
                     <ResultGame resetClick={resetClick} />

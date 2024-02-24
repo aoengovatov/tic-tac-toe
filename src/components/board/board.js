@@ -10,7 +10,6 @@ import {
 import { setDraw, setWin, setCurrentPlayer, updateFields } from '../../store/actions';
 import { checkDraw, checkWin } from '../../utils/utils';
 import { BoardItem } from '../boardItem/BoardItem';
-import styles from './board.module.css';
 
 class BoardContainer extends Component {
     constructor(props) {
@@ -46,7 +45,7 @@ class BoardContainer extends Component {
         const { fields } = this.props;
 
         return (
-            <div className={styles.board}>
+            <div className="flex flex-wrap justify-center items-center w-[350px] h-[350px] bg-zinc-700 rounded-md p-[5px] mb-[2px]">
                 {fields.map(({ id, value }) => (
                     <BoardItem
                         id={id}
