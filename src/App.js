@@ -1,32 +1,45 @@
 import PropTypes from 'prop-types';
+import { Component } from 'react';
 import { Board } from './components/board/board';
 import { Status } from './components/status/Status';
 import { ResultGame } from './components/resultGame/ResultGame';
-import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { reset } from './store/actions';
 import styles from './app.module.css';
 
-const AppLayout = ({ resetClick }) => (
-    <div className={styles.container}>
-        <div className={styles.appContainer}>
-            <div className={styles.title}>Крестики - нолики</div>
-            <Board />
-            <Status />
-            <ResultGame resetClick={resetClick} />
-        </div>
-    </div>
-);
+class AppLayout extends Component {
+    render() {
+        const { resetClick } = this.props;
 
-export const App = () => {
-    const dispatch = useDispatch();
+        return (
+            <div className={styles.container}>
+                <div className={styles.appContainer}>
+                    <div className={styles.title}>Крестики - нолики</div>
+                    <Board />
+                    <Status />
+                    <ResultGame resetClick={resetClick} />
+                </div>
+            </div>
+        );
+    }
+}
 
-    const resetClick = () => {
-        dispatch(reset());
-    };
+export class AppContainer extends Component {
+    render() {
+        return <AppLayout resetClick={this.props.resetClick} />;
+    }
+}
 
-    return <AppLayout resetClick={resetClick} />;
-};
+const mapDispatchToProps = (dispatch) => ({
+    resetClick: () => dispatch(reset()),
+});
+
+export const App = connect(null, mapDispatchToProps)(AppContainer);
 
 AppLayout.propTypes = {
+    resetClick: PropTypes.func,
+};
+
+AppContainer.propTypes = {
     resetClick: PropTypes.func,
 };
