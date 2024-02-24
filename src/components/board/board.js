@@ -1,5 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Component } from 'react';
 import {
     selectIsWin,
     selectIsDraw,
@@ -11,21 +12,16 @@ import { checkDraw, checkWin } from '../../utils/utils';
 import { BoardItem } from '../boardItem/BoardItem';
 import styles from './board.module.css';
 
-export const Board = () => {
-    const fields = useSelector(selectFields);
-    const isWin = useSelector(selectIsWin);
-    const isDraw = useSelector(selectIsDraw);
-    const currentPlayer = useSelector(selectCurrentPlayer);
-    const [winPattern, setWinPattern] = useState([]);
-    const dispatch = useDispatch();
+class BoardContainer extends Component {
+    constructor(props) {
+        super(props);
 
-    useEffect(() => {
-        if (!isWin && !isDraw) {
-            setWinPattern([]);
-        }
-    }, [isWin, isDraw]);
+        this.playerClick = this.playerClick.bind(this);
+    }
 
-    const playerClick = (id) => {
+    playerClick(id) {
+        const { dispatch, fields, isWin, isDraw, currentPlayer } = this.props;
+
         if (isWin || isDraw || fields[id].value !== '') return;
 
         let newFields = fields.map((field) =>
@@ -40,23 +36,39 @@ export const Board = () => {
 
         if (win.isWin) {
             dispatch(setWin());
-            setWinPattern(win.winPattern);
         } else {
             dispatch(setCurrentPlayer());
         }
         dispatch(updateFields(newFields));
-    };
+    }
 
-    return (
-        <div className={styles.board}>
-            {fields.map(({ id }) => (
-                <BoardItem
-                    id={id}
-                    key={id}
-                    winLine={winPattern.includes(id)}
-                    onClick={() => playerClick(id)}
-                />
-            ))}
-        </div>
-    );
+    render() {
+        const { fields } = this.props;
+
+        return (
+            <div className={styles.board}>
+                {fields.map(({ id, value }) => (
+                    <BoardItem
+                        id={id}
+                        key={id}
+                        value={value}
+                        onClick={() => this.playerClick(id)}
+                    />
+                ))}
+            </div>
+        );
+    }
+}
+
+const mapStateToProps = (state) => ({
+    fields: selectFields(state),
+    isWin: selectIsWin(state),
+    isDraw: selectIsDraw(state),
+    currentPlayer: selectCurrentPlayer(state),
+});
+
+export const Board = connect(mapStateToProps)(BoardContainer);
+
+BoardContainer.propTypes = {
+    fields: PropTypes.array,
 };

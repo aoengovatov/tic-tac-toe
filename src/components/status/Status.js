@@ -1,34 +1,50 @@
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
+import { Component } from 'react';
 import { selectCurrentPlayer, selectIsDraw, selectIsWin } from '../../store/selectors';
 import styles from './status.module.css';
 
-const StatusLayout = ({ title }) => <div className={styles.status}>{title}</div>;
+class StatusLayout extends Component {
+    render() {
+        const { title } = this.props;
 
-export const Status = () => {
-    const currentPlayer = useSelector(selectCurrentPlayer);
-    const isWin = useSelector(selectIsWin);
-    const isDraw = useSelector(selectIsDraw);
+        return <div className={styles.status}>{title}</div>;
+    }
+}
 
-    const getStatus = (currentPlayer) => {
-        switch (currentPlayer) {
-            case 'x':
-                return 'ходит крестик';
-            case 'o':
-                return 'ходит нолик';
-            default:
-                return '';
-        }
-    };
+class StatusContainer extends Component {
+    render() {
+        const { currentPlayer, isWin, isDraw } = this.props;
 
-    return !(isWin || isDraw) && <StatusLayout title={getStatus(currentPlayer)} />;
-};
+        const getStatus = (currentPlayer) => {
+            switch (currentPlayer) {
+                case 'x':
+                    return 'ходит крестик';
+                case 'o':
+                    return 'ходит нолик';
+                default:
+                    return '';
+            }
+        };
 
-Status.propTypes = {
+        return !(isWin || isDraw) && <StatusLayout title={getStatus(currentPlayer)} />;
+    }
+}
+
+const mapSelectroToProps = (state) => ({
+    currentPlayer: selectCurrentPlayer(state),
+    isWin: selectIsWin(state),
+    isWraw: selectIsDraw(state),
+});
+
+export const Status = connect(mapSelectroToProps)(StatusContainer);
+
+StatusContainer.propTypes = {
     currentPlayer: PropTypes.string,
-    statusFlag: PropTypes.bool,
+    isWin: PropTypes.bool,
+    isDraw: PropTypes.bool,
 };
 
 StatusLayout.propTypes = {
-    currentPlayer: PropTypes.string,
+    title: PropTypes.string,
 };
