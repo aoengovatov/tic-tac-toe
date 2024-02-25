@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import { Board } from './components/board/board';
 import { Status } from './components/status/Status';
 import { ResultGame } from './components/resultGame/ResultGame';
@@ -18,6 +19,7 @@ const AppLayout = ({ resetClick }) => (
 );
 
 export const App = () => {
+
     const dispatch = useDispatch();
 
     const resetClick = () => {
