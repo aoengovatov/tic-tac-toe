@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
-import { Board } from './components/board/Board';
+
+import { Board } from './components/board/board';
 import { Status } from './components/status/Status';
 import { ResultGame } from './components/resultGame/ResultGame';
-import { useState } from 'react';
-import { store } from './store/store';
+import { useDispatch } from 'react-redux';
 import { reset } from './store/actions';
 import styles from './app.module.css';
 
-const AppLayout = ({ resetClick, updateApp }) => (
+const AppLayout = ({ resetClick }) => (
     <div className={styles.container}>
         <div className={styles.appContainer}>
             <div className={styles.title}>Крестики - нолики</div>
-            <Board updateApp={updateApp} />
+            <Board />
             <Status />
             <ResultGame resetClick={resetClick} />
         </div>
@@ -19,21 +19,16 @@ const AppLayout = ({ resetClick, updateApp }) => (
 );
 
 export const App = () => {
-    const [update, setUpdate] = useState(false);
 
-    const updateApp = () => {
-        setUpdate(!update);
-    };
+    const dispatch = useDispatch();
 
     const resetClick = () => {
-        store.dispatch(reset());
-        updateApp();
+        dispatch(reset());
     };
 
-    return <AppLayout resetClick={resetClick} updateApp={updateApp} />;
+    return <AppLayout resetClick={resetClick} />;
 };
 
 AppLayout.propTypes = {
     resetClick: PropTypes.func,
-    updateApp: PropTypes.func,
 };

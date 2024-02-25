@@ -1,5 +1,5 @@
-export const selectField = (state, id) => state.getState().fields[id];
-export const selectFields = (state, id) => state.getState().fields;
-export const selectIsWin = (state) => state.getState().isWin;
-export const selectIsDraw = (state) => state.getState().isDraw;
-export const selectCurrentPlayer = (state) => state.getState().currentPlayer;
+export const selectIsWin = (store) => store.isWin;
+export const selectIsDraw = (store) => store.isDraw;
+export const selectFields = (store) => store.fields;
+export const selectCurrentPlayer = (store) => store.currentPlayer;
+export const selectFieldValue = (id) => (store) => store.fields[id];

@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { selectCurrentPlayer, selectIsDraw, selectIsWin } from '../../store/selectors';
-import { store } from '../../store/store';
 import styles from './status.module.css';
 
 const StatusLayout = ({ title }) => <div className={styles.status}>{title}</div>;
 
 export const Status = () => {
-    const currentPlayer = selectCurrentPlayer(store);
-    const isWin = selectIsWin(store);
-    const isDraw = selectIsDraw(store);
+    const currentPlayer = useSelector(selectCurrentPlayer);
+    const isWin = useSelector(selectIsWin);
+    const isDraw = useSelector(selectIsDraw);
 
     const getStatus = (currentPlayer) => {
         switch (currentPlayer) {
@@ -22,6 +22,11 @@ export const Status = () => {
     };
 
     return !(isWin || isDraw) && <StatusLayout title={getStatus(currentPlayer)} />;
+};
+
+Status.propTypes = {
+    currentPlayer: PropTypes.string,
+    statusFlag: PropTypes.bool,
 };
 
 StatusLayout.propTypes = {

@@ -14,7 +14,7 @@ export const checkWin = (fields, currentPlayer) => {
     return isWin ? { isWin: true, winPattern: [...winPatternResult] } : { isWin: false };
 };
 
-export const checkDrow = (fields) => {
+export const checkDraw = (fields) => {
     const fieldsArray = fields.map((field) => field.value);
     return fieldsArray.every((field) => field !== '');
 };
